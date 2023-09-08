@@ -1,9 +1,10 @@
 <?php
 /*
-Plugin Name: Certificate Share
+Plugin Name: Musterstudy LMS Certificate Shate
 Description: Adds a Share button with social sharing options.
 Version: 1.0
 Author: anoy369
+web: http://anoy369.com/
 */
 
 // Enqueue necessary scripts and styles
@@ -23,31 +24,4 @@ function certificate_share_script() {
 }
 add_action('wp_enqueue_scripts', 'certificate_share_script');
 
-
-
-// function custom_certificate_shortcode() {
-//     $current_user_id = get_current_user_id();
-//     $completed = stm_lms_get_user_completed_courses($current_user_id, array('user_course_id', 'course_id'), -1);
-    
-//     $output = ''; // Initialize an empty string to store the HTML output
-    
-//     if (!empty($completed)) {
-//         foreach ($completed as $course) {
-//             $code = STM_LMS_Certificates::stm_lms_certificate_code($course['user_course_id'], $course['course_id']);
-            
-//             if (class_exists('STM_LMS_Certificate_Builder')) {
-//                 $certificate_link = esc_url(STM_LMS_Course::certificates_page_url($course['course_id']));
-//                 $output .= '<a href="' . $certificate_link . '" target="_blank" class="certificate_share_button">';
-//                 $output .= esc_html__('Share', 'masterstudy-lms-learning-management-system');
-//                 $output .= '</a>';
-//             }
-//         }
-//     }
-    
-//     return $output;
-// }
-// add_shortcode('certificate_shortcode', 'custom_certificate_shortcode');
-
-$pluginUrl = plugins_url();
-wp_localize_script( 'custom-social-icons-popup-script', 'object_name', $pluginUrl );
 

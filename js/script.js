@@ -1,17 +1,17 @@
 jQuery(document).ready(function () {
-    var pdfurl;
+
+  var loader = '<span class="buttonLoader"></span>'
   // Function to show the popup
-  console.log(pdfurl);
-  function showPopup(pdfurl) {
-    // Create a div for the popup content
-    var popupContent =
+  function showPopup(fileUrl) {
+    
+      var caption = 'Our Great student Anoy Dey'
+
+       var popupContent =
       '<div class="social-icons">' +
       '<div class="close-certificate-popup"><i class="fas fa-times"></i></div>' +
       '<div class="icon-container">' +
-      '<a href="https://www.linkedin.com/sharing/share-offsite/?url=' +
-      pdfurl +
-      '" class="social-icon" target="_blank"><i class="fab fa-linkedin"></i></a>' +
-      '<a href="https://www.facebook.com/" class="social-icon" target="_blank"><i class="fab fa-facebook"></i></a>' +
+      '<a href="https://www.linkedin.com/shareArticle?mini=true&url='+fileUrl+'&title='+ caption+'" class="social-icon" target="_blank"><i class="fab fa-linkedin"></i></a>' +
+      '<a href="https://www.facebook.com/sharer/sharer.php?u='+fileUrl+'" class="social-icon" target="_blank"><i class="fab fa-facebook"></i></a>' +
       '<a href="https://www.instagram.com/" class="social-icon" target="_blank"><i class="fab fa-instagram"></i></a>' +
       "</div>" +
       "</div>";
@@ -24,22 +24,26 @@ jQuery(document).ready(function () {
 
     // Append the popup to the body
     jQuery("body").append(popup);
-
     // Close the popup when clicking outside of it
     jQuery(".close-certificate-popup").on("click", function () {
       jQuery(".certificate-share-popup").remove();
+      jQuery('.certificate-share-button').html('Share');      
+      jQuery('.certificate-share-button').prop('disabled', false);
     });
     // Close the popup when clicking outside the social-icons box but inside the popup box
     popup.on("click", function (event) {
       if (jQuery(event.target).hasClass("certificate-share-popup")) {
         jQuery(".certificate-share-popup").remove();
+        jQuery('.certificate-share-button').html('Share');
+        
+      jQuery('.certificate-share-button').prop('disabled', false);
       }
     });
   }
 
   // Add a button after the element with class 'stm_preview_certificate'
   jQuery(".stm_preview_certificate").after(
-    '<button class="certificate-share-button">Share</button>'
+    '<button class="certificate-share-button">Share</span></button>'
   );
 
   
@@ -63,8 +67,14 @@ jQuery(document).ready(function () {
   var jsPDF = window.jspdf.jsPDF;
 
   jQuery(document).ready(function () {
-    jQuery("body").on("click", ".certificate-share-button", function (e) {
-      var courseId = "";
+    jQuery("body").on("click", ".certificate-share-button", function (e) {    
+
+      //add loader to the button  
+      jQuery('.certificate-share-button').html(loader);
+      jQuery('.certificate-share-button').prop('disabled', true);
+
+
+      courseId = "";
       var id = false;
       if (typeof jQuery(this).attr("data-id") !== "undefined") {
         id = jQuery(this).attr("data-id");
@@ -210,31 +220,35 @@ jQuery(document).ready(function () {
     // window.open(doc.output('bloburl'));
     // doc.autoPrint();
     // doc.output('save', 'Certificate.pdf');
-    pdfurl = doc.output("bloburl");
+    // pdfurl = doc.output("bloburl");
 
     // Send the PDF to the server and save it as a media attachment
-    saveToMediaLibrary(doc, 'Certificate-' + id + '.pdf');
+    saveToMediaLibrary(doc, 'Certificate-' + id + '-' + courseId +'.pdf', courseId);
 
-    showPopup(pdfurl);
-
+    // showPopup();
+    jQuery('.stm_lms_finish_score_popup').hide()
+    
+    // jQuery('.certificate-share-button').html('Share')
     
   }
 
-  function saveToMediaLibrary(pdf, filename) {
+  function saveToMediaLibrary(pdf, filename, courseId) {
     var pdfData = pdf.output('blob');
     var formData = new FormData();
     formData.append('action', 'upload_pdf_to_media_library');
     formData.append('pdf', pdfData, filename);
+    formData.append('course_id', courseId);
     // console.log('formData:', pdfData);
     var ajaxurl = pluginData.pluginUrl;
 
     jQuery.ajax({
-      url: ajaxurl+'save-pdf.php',
+      url: ajaxurl+'certificate-share.php',
       type: 'POST',
       processData: false,
       contentType: false,
       data: formData,
       success: function (response) {
+        showPopup(response);
         console.log('PDF saved to media library:', response);
       },
       error: function (error) {
@@ -266,11 +280,5 @@ jQuery(document).ready(function () {
       b: b,
     };
   }
-
-  // Attach a click event handler to the button
-//   jQuery(".certificate-share-button").on("click", function () {
-//     console.log("click");
-//     showPopup();
-//   });
 
 });

@@ -3,6 +3,13 @@ button.certificate-share-button {
     border: 0;
     border-radius: 5px;
     padding: 6px 5px;
+    min-width: 50px;
+    min-height: 30px;
+    text-align: center;    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
 }
 .certificate-share-popup {
     width: 100%;
@@ -19,6 +26,8 @@ button.certificate-share-button {
 .certificate-share-popup {
     display: none;
     /* Other styles... */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
 .certificate-share-popup .social-icons{
@@ -31,6 +40,9 @@ button.certificate-share-button {
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 10px 10px 20px -10px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 10px 10px 20px -10px rgba(0,0,0,0.75);
+-moz-box-shadow: 10px 10px 20px -10px rgba(0,0,0,0.75);
 }
 
 .close-certificate-popup{
@@ -48,4 +60,56 @@ button.certificate-share-button {
 }
 .certificate-share-popup .social-icon i{
     font-size: 40px;    
+}
+
+/* //loader// */
+.buttonLoader {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: block;
+    margin:5px auto;
+    position: relative;
+    color: #FFF;
+    left: -100px;
+    box-sizing: border-box;
+    animation: shadowRolling 2s linear infinite;
+  }
+  
+  @keyframes shadowRolling {
+    0% {
+      box-shadow: 0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0);
+    }
+    12% {
+      box-shadow: 100px 0 white, 0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0);
+    }
+    25% {
+      box-shadow: 110px 0 white, 100px 0 white, 0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0);
+    }
+    36% {
+      box-shadow: 120px 0 white, 110px 0 white, 100px 0 white, 0px 0 rgba(255, 255, 255, 0);
+    }
+    50% {
+      box-shadow: 130px 0 white, 120px 0 white, 110px 0 white, 100px 0 white;
+    }
+    62% {
+      box-shadow: 200px 0 rgba(255, 255, 255, 0), 130px 0 white, 120px 0 white, 110px 0 white;
+    }
+    75% {
+      box-shadow: 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0), 130px 0 white, 120px 0 white;
+    }
+    87% {
+      box-shadow: 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0), 130px 0 white;
+    }
+    100% {
+      box-shadow: 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0);
+    }
+  }
+
+
+  /* Apply styles for screens below 700px in width */
+@media (max-width: 700px) {
+    button.certificate-share-button {
+        margin-left: 0;
+    }
 }
